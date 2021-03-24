@@ -1,0 +1,38 @@
+FROM alpine:3.12
+
+ENV JDK_VERSION=openjdk11-jre \
+JBPM_VERSION=https://download.jboss.org/jbpm/release/7.51.0.Final/jbpm-server-7.51.0.Final-dist.zip
+
+LABEL autor="Martin Vilche <mfvilche@gmail.com>" \
+      io.k8s.description="Runtime image jdk alpine" \
+      io.k8s.display-name="Java Applications" \
+      io.openshift.tags="builder,java,maven,runtime" \
+      io.openshift.expose-services="8080,8009,8778,8443" \
+      io.openshift.s2i.scripts-url="image:///usr/libexec/s2i" \
+      org.jboss.deployments-dir="/opt/jbpm/standalone/deployments"
+
+RUN apk add --update --no-cache $JDK_VERSION wget tzdata bash rsync tzdata curl unzip msttcorefonts-installer fontconfig && \
+    update-ms-fonts && \
+    fc-cache -f && \
+wget $JBPM_VERSION --progress=bar:force -O /tmp/jbpm.tar.gz && \
+mkdir -p /opt/jbpm /opt/config && tar zxvf /tmp/jbpm.tar.gz -C /opt/jbpm --strip-components 1 && rm -rf /tmp/jbpm.tar.gz
+
+COPY contrib/wfmodules/ /opt/jbpm/modules/
+COPY contrib/wfcfg/standalone.xml /opt/jbpm/standalone/configuration/standalone.xml
+COPY contrib/wfcfg/standalone.conf /opt/jbpm/bin/standalone.conf
+COPY s2i/bin/run /usr/libexec/s2i/run
+COPY contrib/jolokia-jvm-1.6.2-agent.jar /usr/libexec/s2i/jolokia-jvm-1.6.2-agent.jar
+
+
+RUN touch /etc/localtime /etc/timezone && \
+chown -R 1001 /opt /usr/libexec/s2i /etc/localtime /etc/timezone  && \
+chgrp -R 0 /opt /usr/libexec/s2i /etc/localtime /etc/timezone  && \
+chmod -R g=u /opt /usr/libexec/s2i /etc/localtime /etc/timezone
+
+WORKDIR /opt/jbpm
+
+USER 1001
+
+EXPOSE 8080 8778 8009 8443
+
+CMD ["/usr/libexec/s2i/run"]
