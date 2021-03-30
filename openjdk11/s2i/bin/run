@@ -37,5 +37,6 @@ if [ ! -f $WILDFLY_DIR/jolokia.jks ]; then
 fi
 
 cat $WILDFLY_DIR/standalone/configuration/custom/standalone.conf > $WILDFLY_DIR/bin/standalone.conf
+cat $WILDFLY_DIR/standalone/configuration/custom/standalone.xml > $WILDFLY_DIR/standalone/configuration/standalone.xml
 
-exec $WILDFLY_DIR/bin/standalone.sh -c custom/standalone.xml -b 0.0.0.0
+exec $WILDFLY_DIR/bin/standalone.sh -b 0.0.0.0
