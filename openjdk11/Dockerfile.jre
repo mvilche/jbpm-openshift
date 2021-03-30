@@ -31,7 +31,7 @@ WORKDIR /opt/jbpm
 
 USER 1001
 
-RUN /opt/jbpm/bin/jboss-cli.sh --file=jbpm-mysql-config.cli
+RUN /opt/jbpm/bin/jboss-cli.sh --file=/opt/jbpm/bin/jbpm-mysql-config.cli
 
 EXPOSE 8080 8778 8009 8443
 
