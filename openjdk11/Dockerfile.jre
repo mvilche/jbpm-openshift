@@ -18,12 +18,9 @@ RUN apk add --update --no-cache $JDK_VERSION wget tzdata bash rsync tzdata curl 
 RUN wget $JBPM_VERSION --progress=bar:force -O /tmp/jbpm.zip && \
 mkdir -p /opt/jbpm && unzip /tmp/jbpm.zip -d /opt/jbpm && rm -rf /tmp/jbpm.zip
 
-COPY contrib/wfmodules/ /opt/jbpm/modules/
-COPY contrib/wfcfg/standalone.xml /opt/jbpm/standalone/configuration/standalone.xml
 COPY contrib/wfcfg/standalone.conf /opt/jbpm/bin/standalone.conf
 COPY s2i/bin/run /usr/libexec/s2i/run
 COPY contrib/jolokia-jvm-1.6.2-agent.jar /usr/libexec/s2i/jolokia-jvm-1.6.2-agent.jar
-
 
 RUN touch /etc/localtime /etc/timezone && \
 chown -R 1001 /opt /usr/libexec/s2i /etc/localtime /etc/timezone  && \
@@ -33,6 +30,8 @@ chmod -R g=u /opt /usr/libexec/s2i /etc/localtime /etc/timezone
 WORKDIR /opt/jbpm
 
 USER 1001
+
+RUN /opt/jbpm/bin/jboss-cli.sh --file=jbpm-mysql-config.cli
 
 EXPOSE 8080 8778 8009 8443
 

@@ -475,9 +475,9 @@
                                 <password>sa</password>
                             </security>
                         </datasource>
-                        <!-- <xa-datasource jndi-name="java:jboss/datasources/jBPMDS" pool-name="jBPMXADS">
+                        <xa-datasource jndi-name="java:jboss/datasources/jBPMDS" pool-name="jBPMXADS">
                             <xa-datasource-property name="ServerName">
-                                localhost
+                                mysql
                             </xa-datasource-property>
                             <xa-datasource-property name="PortNumber">
                                 3306
@@ -488,8 +488,8 @@
                             <xa-datasource-class>com.mysql.cj.jdbc.MysqlXADataSource</xa-datasource-class>
                             <driver>mysql</driver>
                             <security>
-                                <user-name>jbpm</user-name>
-                                <password>jbpm</password>
+                                <user-name>root</user-name>
+                                <password>1234</password>
                             </security>
                             <validation>
                                 <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"/>
@@ -498,27 +498,10 @@
                                 <background-validation-millis>120000</background-validation-millis>
                                 <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"/>
                             </validation>
-                        </xa-datasource> -->
-                        <!-- <xa-datasource jndi-name="java:jboss/datasources/jBPMDS" pool-name="jBPMXADS">
-                        <driver>mysql</driver>
-                            <xa-datasource-property name="ServerName">database-mysql</xa-datasource-property>
-                            <xa-datasource-property name="DatabaseName">jbpm_sire</xa-datasource-property>
-                            <xa-datasource-property name="PortNumber">3308</xa-datasource-property>
-                            <security>
-                            <user-name>sire</user-name>
-                            <password>Sire.2021!</password>
-                            </security>
-                            <validation>
-                            <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"></valid-connection-checker>
-                            <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"></exception-sorter>
-                            </validation>
-                        </xa-datasource> -->
+                        </xa-datasource>
                         <drivers>
                             <driver name="h2" module="com.h2database.h2">
                                 <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
-                            </driver>
-                            <driver name="postgres" module="org.postgres">
-                                <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
                             </driver>
                             <driver name="mysql" module="com.mysql">
                                 <xa-datasource-class>com.mysql.cj.jdbc.MysqlXADataSource</xa-datasource-class>
